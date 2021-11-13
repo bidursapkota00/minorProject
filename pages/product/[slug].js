@@ -12,11 +12,12 @@ import Layout from '../../components/Layout';
 import NextLink from 'next/link';
 import useStyles from '../../util/styles';
 import Image from 'next/image';
-import db from '../../util/db';
-import Product from '../../models/Product';
+// import db from '../../util/db';
+// import Product from '../../models/Product';
 import axios from 'axios';
 import { Store } from '../../util/Store';
 import { useRouter } from 'next/router';
+import { MongoClient } from 'mongodb';
 
 export default function ProductScreen(props) {
   const router = useRouter();
@@ -125,12 +126,18 @@ export default function ProductScreen(props) {
 export async function getServerSideProps(context) {
   const { params } = context;
   const { slug } = params;
-  await db.connect();
-  const product = await Product.findOne({ slug }).lean();
-  await db.disconnect();
+  const client = await MongoClient.connect(process.env.MONGODB_URI);
+
+  const db = client.db();
+
+  const Products = db.collection('Products');
+
+  let product = await Products.findOne({ slug });
+  product = await JSON.parse(JSON.stringify(product));
+  console.log(product);
   return {
     props: {
-      product: db.convertDocToObj(product),
+      product,
     },
   };
 }
