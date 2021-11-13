@@ -16,8 +16,9 @@ import router from 'next/router';
 import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import dynamic from 'next/dynamic';
 
-export default function Login() {
+function Login() {
   const {
     handleSubmit,
     control,
@@ -139,3 +140,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(Login), { ssr: false });
