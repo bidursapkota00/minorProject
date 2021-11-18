@@ -92,7 +92,6 @@ function Cart() {
                         </NextLink>
                       </TableCell>
                       <TableCell align="right">
-                        {console.log(item)}
                         <Select
                           value={item.quantity}
                           onChange={(e) =>

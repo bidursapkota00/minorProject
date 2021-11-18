@@ -72,7 +72,9 @@ export default function Home(props) {
 }
 
 export async function getStaticProps() {
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
+  const client = await MongoClient.connect(
+    process.env.MONGODB_URI + 'Products'
+  );
 
   const db = client.db();
 
@@ -110,5 +112,6 @@ export async function getStaticProps() {
   });
   return {
     props: { products },
+    // revalidate: 10,
   };
 }

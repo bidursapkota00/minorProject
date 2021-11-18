@@ -11,9 +11,9 @@ handler.get(async (req, res) => {
 
   const db = client.db();
 
-  const Products = db.collection('Products');
+  const Products = db.collection('User');
 
-  const data1 = await Products.insertMany(data.products);
+  const data1 = await Products.insertMany(data.users);
 
   client.close();
   res.send(data1);

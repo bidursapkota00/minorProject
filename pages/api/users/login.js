@@ -1,15 +1,22 @@
 import bcrypt from 'bcryptjs';
 import nc from 'next-connect';
-import User from '../../../models/Users';
-import db from '../../../util/db';
+import { MongoClient } from 'mongodb';
 import { signToken } from '../../../util/auth';
 
 const handler = nc();
 
 handler.post(async (req, res) => {
-  await db.connect();
-  const user = await User.findOne({ email: req.body.email });
-  await db.disconnect();
+  const client = await MongoClient.connect(
+    process.env.MONGODB_URI + 'Products?retryWrites=true&w=majority'
+  );
+
+  const db = client.db();
+
+  const Products = db.collection('User');
+
+  const user = await Products.findOne({ email: req.body.email });
+
+  client.close();
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
     const token = signToken(user);
     res.send({

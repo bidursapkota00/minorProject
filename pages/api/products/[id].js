@@ -3,7 +3,9 @@ import { MongoClient, ObjectId } from 'mongodb';
 const handler = nc();
 
 handler.get(async (req, res) => {
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
+  const client = await MongoClient.connect(
+    process.env.MONGODB_URI + 'Products?retryWrites=true&w=majority'
+  );
 
   const db = client.db();
 

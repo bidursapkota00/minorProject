@@ -12,8 +12,6 @@ import Layout from '../../components/Layout';
 import NextLink from 'next/link';
 import useStyles from '../../util/styles';
 import Image from 'next/image';
-// import db from '../../util/db';
-// import Product from '../../models/Product';
 import axios from 'axios';
 import { Store } from '../../util/Store';
 import { useRouter } from 'next/router';
@@ -126,7 +124,9 @@ export default function ProductScreen(props) {
 export async function getServerSideProps(context) {
   const { params } = context;
   const { slug } = params;
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
+  const client = await MongoClient.connect(
+    process.env.MONGODB_URI + 'Products?retryWrites=true&w=majority'
+  );
 
   const db = client.db();
 

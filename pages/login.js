@@ -41,6 +41,7 @@ function Login() {
         email,
         password,
       });
+      console.log(data);
       dispatch({ type: 'USER_LOGIN', payload: data });
       const cookie = JSON.stringify(data);
       Cookies.set('userInfo', cookie);
@@ -67,7 +68,7 @@ function Login() {
                 defaultValue=""
                 rules={{
                   required: true,
-                  // pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                 }}
                 render={({ field }) => (
                   <TextField

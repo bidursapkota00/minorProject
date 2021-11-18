@@ -13,6 +13,7 @@ const initialState = {
     ? JSON.parse(Cookies.get('userInfo'))
     : null,
 };
+console.log(Cookies.get('userInfo'));
 
 function reducer(state, action) {
   switch (action.type) {
